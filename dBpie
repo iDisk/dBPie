@@ -1,0 +1,16 @@
+import pandas as pd
+
+products_df = pd.read_csv('products_20241111170830.csv')
+export_structure_df = pd.read_csv('export_products(2).csv')
+mapeo_columnas = {
+    'SKU': 'SKU',
+    'Nombre': 'Product name',
+    'Descripción': 'Description',
+    'Precio': 'Price',
+    'CANT.': 'Quantity',
+    'URL de la imagen': 'Images'
+}
+migrated_df = products_df[list(mapeo_columnas.keys())].rename(columns=mapeo_columnas)
+migrated_complete_df = pd.concat([export_structure_df, migrated_df], ignore_index=True)
+migrated_complete_df = migrated_complete_df.fillna("")
+migrated_complete_df.to_csv('migrated_export_products_complete.csv', index=False)
